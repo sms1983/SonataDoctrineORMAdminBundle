@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineORMAdminBundle\Builder;
 
+use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Builder\ShowBuilderInterface;
 use Sonata\AdminBundle\FieldDescription\FieldDescriptionCollection;
 use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
@@ -62,13 +63,13 @@ final class ShowBuilder implements ShowBuilderInterface
             $fieldDescription->setType($type);
         }
 
-        $this->fixFieldDescription($fieldDescription);
+        $this->fixFieldDescription(null, $fieldDescription);
         $fieldDescription->getAdmin()->addShowFieldDescription($fieldDescription->getName(), $fieldDescription);
 
         $list->add($fieldDescription);
     }
 
-    public function fixFieldDescription(FieldDescriptionInterface $fieldDescription): void
+    public function fixFieldDescription(AdminInterface $admin = null, FieldDescriptionInterface $fieldDescription): void
     {
         $type = $fieldDescription->getType();
         if (null === $type) {

@@ -32,8 +32,7 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormFactoryInterface;
 
 /**
- * @phpstan-implements DatagridBuilderInterface<ProxyQueryInterface<object>>
- *
+ * @phpstan-implements DatagridBuilderInterface<ProxyQueryInterface>
  * @psalm-suppress DeprecatedInterface
  *
  * @see https://github.com/sonata-project/SonataAdminBundle/pull/7519
@@ -60,7 +59,7 @@ final class DatagridBuilder implements DatagridBuilderInterface
         $this->csrfTokenEnabled = $csrfTokenEnabled;
     }
 
-    public function fixFieldDescription(FieldDescriptionInterface $fieldDescription): void
+    public function fixFieldDescription(AdminInterface $admin = null, FieldDescriptionInterface $fieldDescription): void
     {
         if ([] !== $fieldDescription->getFieldMapping()) {
             $fieldDescription->setOption('field_mapping', $fieldDescription->getOption('field_mapping', $fieldDescription->getFieldMapping()));
@@ -157,7 +156,6 @@ final class DatagridBuilder implements DatagridBuilderInterface
         if (!$query instanceof ProxyQueryInterface) {
             throw new \TypeError(sprintf('The admin query MUST implement %s.', ProxyQueryInterface::class));
         }
-        /** @phpstan-var ProxyQueryInterface<object> $query */
 
         return new Datagrid($query, $admin->getList(), $pager, $formBuilder, $values);
     }
@@ -167,7 +165,7 @@ final class DatagridBuilder implements DatagridBuilderInterface
      *
      * @throws \RuntimeException If invalid pager type is set
      *
-     * @return PagerInterface<ProxyQueryInterface<object>>
+     * @return PagerInterface<ProxyQueryInterface>
      */
     private function getPager(string $pagerType): PagerInterface
     {
@@ -176,7 +174,7 @@ final class DatagridBuilder implements DatagridBuilderInterface
                 return new Pager();
 
             case Pager::TYPE_SIMPLE:
-                /** @var SimplePager<ProxyQueryInterface<object>> $simplePager */
+                /** @var SimplePager<ProxyQueryInterface> $simplePager */
                 $simplePager = new SimplePager();
 
                 return $simplePager;
