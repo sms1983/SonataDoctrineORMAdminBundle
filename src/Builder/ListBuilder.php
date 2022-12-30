@@ -65,7 +65,7 @@ final class ListBuilder implements ListBuilderInterface
             $fieldDescription->setType($type);
         }
 
-        $this->fixFieldDescription($fieldDescription);
+        $this->fixFieldDescription(null, $fieldDescription);
     }
 
     public function addField(FieldDescriptionCollection $list, ?string $type, FieldDescriptionInterface $fieldDescription): void

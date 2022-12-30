@@ -134,7 +134,7 @@ final class DatagridBuilder implements DatagridBuilderInterface
             $fieldDescription->setType($type);
         }
 
-        $this->fixFieldDescription($fieldDescription);
+        $this->fixFieldDescription(null, $fieldDescription);
         $fieldDescription->getAdmin()->addFilterFieldDescription($fieldDescription->getName(), $fieldDescription);
 
         $filter = $this->filterFactory->create($fieldDescription->getName(), $type, $fieldDescription->getOptions());
